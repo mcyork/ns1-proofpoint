@@ -63,6 +63,13 @@ The script logs actions to the file specified in the `LOG_FILE` configuration. T
 - The script includes rate limiting with a 1-second delay between processing each zone to avoid hitting API rate limits.
 - Ensure your NS1 API key has the necessary permissions to manage DNS records for the specified zones.
 
+## TODO
+
+- Add error handling
+- Add support for Proofpoint SPF records
+- Add support for Proofpoint DKIM records
+- Add support for Proofpoint NS for the above if that's what they're using now.
+
 ## License
 
 This project is licensed under the MIT License.
