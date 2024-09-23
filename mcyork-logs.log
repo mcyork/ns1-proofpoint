@@ -1,0 +1,19 @@
+[2024-09-22 15:44:13] ====================
+[2024-09-22 15:44:13] Processing zone: invoices.org
+[2024-09-22 15:44:13] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-09-22 15:44:13] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-09-22 15:44:26] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-09-22 15:44:26] User response: n
+[2024-09-22 15:44:26] Skipped changes for zone invoices.org.
+[2024-09-22 15:44:26] ====================
+[2024-09-22 15:44:26] ====================
+[2024-09-22 15:44:26] Processing zone: ubef.net
+[2024-09-22 15:44:26] Current _dmarc.ubef.net value: ['_dmarc.ubef.net.dmarc.has.pphosted.com.'], type: CNAME
+[2024-09-22 15:44:26] Current _proofpoint-verification.ubef.net value: ['hello-worlding'], type: TXT
+[2024-09-22 15:44:47] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-09-22 15:44:47] User response: y
+[2024-09-22 15:44:47] Record _dmarc.ubef.net already has the correct value and type.
+[2024-09-22 15:44:47] Record _proofpoint-verification.ubef.net deleted successfully.
+[2024-09-22 15:44:48] Record _proofpoint-verification created successfully.
+[2024-09-22 15:44:48] Changed _proofpoint-verification.ubef.net to hello-world (type: TXT)
+[2024-09-22 15:44:48] ====================

@@ -1,0 +1,9 @@
+config_local.py
+bin
+include
+lib
+__pycache__
+ns1_actions.log
+zones.txt
+pyvenv.cfg
+venv/
