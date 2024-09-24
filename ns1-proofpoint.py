@@ -3,6 +3,7 @@ import requests
 import json
 import time
 import sys
+import yaml
 from datetime import datetime
 
 # Try to import from config_local first, fall back to config if not found
@@ -71,16 +72,15 @@ def create_record(zone_name, record_name, record_type, data):
         print(f"Failed to create record {record_name}: {response.text}")
         log_action(f"Failed to create record {record_name}: {response.text}")
 
-def list_specific_records(zone_name):
+def list_specific_records(zone_name, record_names):
     records = get_zone_records(zone_name)
     if records:
-        dmarc_record = next((r for r in records.get("records", []) if r["domain"] == f"_dmarc.{zone_name}"), None)
-        proofpoint_record = next((r for r in records.get("records", []) if r["domain"] == f"_proofpoint-verification.{zone_name}"), None)
-        return dmarc_record, proofpoint_record
+        found_records = {name: next((r for r in records.get("records", []) if r["domain"] == f"{name}.{zone_name}"), None) for name in record_names}
+        return found_records
     else:
-        return None, None
+        return {name: None for name in record_names}
 
-def process_zones(file_path):
+def process_zones(file_path, config_records):
     if not os.path.exists(file_path):
         print(f"Error: The file '{file_path}' does not exist.")
         log_action(f"Error: The file '{file_path}' does not exist.")
@@ -98,30 +98,30 @@ def process_zones(file_path):
         log_action("=" * 20)
         log_action(f"Processing zone: {zone}")
 
-        dmarc_record, proofpoint_record = list_specific_records(zone)
+        record_names = [record['name'] for record in config_records]
+        found_records = list_specific_records(zone, record_names)
 
-        new_dmarc_value = f"_dmarc.{zone}.dmarc.has.pphosted.com."
         proposed_changes = []
 
-        if dmarc_record:
-            current_dmarc_value = dmarc_record['short_answers']
-            current_dmarc_type = dmarc_record['type']
-            print(f"Current _dmarc.{zone} value: {current_dmarc_value}, type: {current_dmarc_type}")
-            log_action(f"Current _dmarc.{zone} value: {current_dmarc_value}, type: {current_dmarc_type}")
-            if new_dmarc_value not in current_dmarc_value or current_dmarc_type != "CNAME":
-                proposed_changes.append(f"Change _dmarc.{zone} to {new_dmarc_value} (type: CNAME)")
-        else:
-            proposed_changes.append(f"Create _dmarc.{zone} with value {new_dmarc_value} (type: CNAME)")
+        for record in config_records:
+            name = record['name']
+            record_type = record['type']
+            value_template = record.get('value_template')
+            value = record.get('value')
 
-        if proofpoint_record:
-            current_proofpoint_value = proofpoint_record['short_answers']
-            current_proofpoint_type = proofpoint_record['type']
-            print(f"Current _proofpoint-verification.{zone} value: {current_proofpoint_value}, type: {current_proofpoint_type}")
-            log_action(f"Current _proofpoint-verification.{zone} value: {current_proofpoint_value}, type: {current_proofpoint_type}")
-            if config.PROOFPOINT_VALUE not in current_proofpoint_value or current_proofpoint_type != "TXT":
-                proposed_changes.append(f"Change _proofpoint-verification.{zone} to {config.PROOFPOINT_VALUE} (type: TXT)")
-        else:
-            proposed_changes.append(f"Create _proofpoint-verification.{zone} with value {config.PROOFPOINT_VALUE} (type: TXT)")
+            if value_template:
+                value = value_template.format(zone=zone, domain=zone)
+
+            current_record = found_records[name]
+            if current_record:
+                current_value = current_record['short_answers']
+                current_type = current_record['type']
+                print(f"Current {name}.{zone} value: {current_value}, type: {current_type}")
+                log_action(f"Current {name}.{zone} value: {current_value}, type: {current_type}")
+                if value not in current_value or current_type != record_type:
+                    proposed_changes.append(f"Change {name}.{zone} to {value} (type: {record_type})")
+            else:
+                proposed_changes.append(f"Create {name}.{zone} with value {value} (type: {record_type})")
 
         if proposed_changes:
             print("Proposed changes:")
@@ -141,29 +141,29 @@ def process_zones(file_path):
             log_action("=" * 20)
             continue
 
-        if dmarc_record:
-            if new_dmarc_value not in current_dmarc_value or current_dmarc_type != "CNAME":
-                delete_record(zone, f"_dmarc.{zone}", current_dmarc_type)
-                create_record(zone, "_dmarc", "CNAME", new_dmarc_value)
-                log_action(f"Changed _dmarc.{zone} to {new_dmarc_value} (type: CNAME)")
-            else:
-                print(f"Record _dmarc.{zone} already has the correct value and type.")
-                log_action(f"Record _dmarc.{zone} already has the correct value and type.")
-        else:
-            create_record(zone, "_dmarc", "CNAME", new_dmarc_value)
-            log_action(f"Created _dmarc.{zone} with value {new_dmarc_value} (type: CNAME)")
+        for record in config_records:
+            name = record['name']
+            record_type = record['type']
+            value_template = record.get('value_template')
+            value = record.get('value')
 
-        if proofpoint_record:
-            if config.PROOFPOINT_VALUE not in current_proofpoint_value or current_proofpoint_type != "TXT":
-                delete_record(zone, f"_proofpoint-verification.{zone}", current_proofpoint_type)
-                create_record(zone, "_proofpoint-verification", "TXT", config.PROOFPOINT_VALUE)
-                log_action(f"Changed _proofpoint-verification.{zone} to {config.PROOFPOINT_VALUE} (type: TXT)")
+            if value_template:
+                value = value_template.format(zone=zone, domain=zone)
+
+            current_record = found_records[name]
+            if current_record:
+                current_value = current_record['short_answers']
+                current_type = current_record['type']
+                if value not in current_value or current_type != record_type:
+                    delete_record(zone, f"{name}.{zone}", current_type)
+                    create_record(zone, name, record_type, value)
+                    log_action(f"Changed {name}.{zone} to {value} (type: {record_type})")
+                else:
+                    print(f"Record {name}.{zone} already has the correct value and type.")
+                    log_action(f"Record {name}.{zone} already has the correct value and type.")
             else:
-                print(f"Record _proofpoint-verification.{zone} already has the correct value and type.")
-                log_action(f"Record _proofpoint-verification.{zone} already has the correct value and type.")
-        else:
-            create_record(zone, "_proofpoint-verification", "TXT", config.PROOFPOINT_VALUE)
-            log_action(f"Created _proofpoint-verification.{zone} with value {config.PROOFPOINT_VALUE} (type: TXT)")
+                create_record(zone, name, record_type, value)
+                log_action(f"Created {name}.{zone} with value {value} (type: {record_type})")
 
         log_action("=" * 20)
         time.sleep(1)  # To avoid rate limiting
@@ -174,4 +174,8 @@ if len(sys.argv) > 1:
 else:
     file_path = input("Enter the path to the file containing the list of zones: ").strip()
 
-process_zones(file_path)
+# Load the YAML configuration
+with open("config_records.yaml", "r") as yaml_file:
+    config_records = yaml.safe_load(yaml_file)["records"]
+
+process_zones(file_path, config_records)

@@ -1,11 +1,12 @@
 # NS1 Proofpoint
 
-This script manages DNS records for specified zones using the NS1 API. It specifically handles `_dmarc` and `_proofpoint-verification` records, ensuring they have the correct values and types.
+This script manages DNS records for specified zones using the NS1 API. It specifically handles records like `_dmarc`, `_proofpoint-verification`, `spf`, and `dkim`, ensuring they have the correct values and types.
 
 ## Prerequisites
 
 - Python 3.x
 - `requests` library (`pip install requests`)
+- `PyYAML` library (`pip install pyyaml`)
 - NS1 API key
 
 ## Configuration
@@ -15,7 +16,24 @@ Create a `config.py` or `config_local.py` file with the following content:
 ```
 API_KEY = 'your_ns1_api_key'
 LOG_FILE = 'path_to_log_file.log'
-PROOFPOINT_VALUE = 'your_proofpoint_value'
+```
+
+Create a `config_records.yaml` file with the following content:
+
+```
+records:
+  - name: "_dmarc"
+    type: "CNAME"
+    value_template: "_dmarc.{zone}.dmarc.has.pphosted.com."
+  - name: "_proofpoint-verification"
+    type: "TXT"
+    value: "hello-world"
+  - name: "spf"
+    type: "TXT"
+    value_template: "v=spf1 include:{domain} ~all"
+  - name: "dkim"
+    type: "CNAME"
+    value_template: "dkim._domainkey.{zone}.dkim.has.pphosted.com."
 ```
 
 ## Usage
@@ -40,7 +58,7 @@ python ns1-proofpoint.py
 Enter the path to the file containing the list of zones: zones.txt
 ```
 
-4. The script will process each zone, list the current values of the `_dmarc` and `_proofpoint-verification` records, and show the proposed changes. You will be prompted to confirm the changes for each zone:
+4. The script will process each zone, list the current values of the specified records, and show the proposed changes. You will be prompted to confirm the changes for each zone:
 
 ```
 Processing zone: example.com
@@ -56,19 +74,12 @@ Do you want to proceed with the changes for zone example.com? (Y/n): y
 
 ## Logging
 
-The script logs actions to the file specified in the `LOG_FILE` configuration. This includes fetching records, proposed changes, user prompts, and responses.
+The script logs actions to the file specified in the `LOG_FILE` configuration. This includes fetching records, proposed changes, user prompts, and responses, as well as the record details (value and type) before and after changes.
 
 ## Notes
 
 - The script includes rate limiting with a 1-second delay between processing each zone to avoid hitting API rate limits.
 - Ensure your NS1 API key has the necessary permissions to manage DNS records for the specified zones.
-
-## TODO
-
-- Add error handling
-- Add support for Proofpoint SPF records
-- Add support for Proofpoint DKIM records
-- Add support for Proofpoint NS for the above if that's what they're using now.
 
 ## License
 

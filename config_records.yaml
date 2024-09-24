@@ -1,0 +1,13 @@
+records:
+  - name: "_dmarc"
+    type: "CNAME"
+    value_template: "_dmarc.{zone}.dmarc.has.pphosted.com."
+  - name: "_proofpoint-verification"
+    type: "TXT"
+    value: "hello-world"
+  - name: "spf"
+    type: "TXT"
+    value_template: "v=spf1 include:{domain} ~all"
+  - name: "dkim"
+    type: "CNAME"
+    value_template: "dkim._domainkey.{zone}.dkim.has.pphosted.com."
