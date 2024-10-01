@@ -17,3 +17,56 @@
 [2024-09-22 15:44:48] Record _proofpoint-verification created successfully.
 [2024-09-22 15:44:48] Changed _proofpoint-verification.ubef.net to hello-world (type: TXT)
 [2024-09-22 15:44:48] ====================
+[2024-09-26 22:00:27] ====================
+[2024-09-26 22:00:27] Processing zone: invoices.org
+[2024-09-26 22:00:28] Failed to fetch records for zone invoices.org: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"7676cd14-a1ba-4c68-ad6e-69f4c7af3b1f"}]}
+
+[2024-09-26 22:01:15] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-09-26 22:01:15] User response: y
+[2024-09-26 22:01:16] Failed to create record _dmarc: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"278115fd-74e1-4aac-8fe8-e0861ffd26a6"}]}
+
+[2024-09-26 22:01:16] Created _dmarc.invoices.org with value _dmarc.invoices.org.dmarc.has.pphosted.com. (type: CNAME)
+[2024-09-26 22:01:16] Failed to create record _proofpoint-verification: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"7deaa486-a401-46b9-a22a-d462271c2d3f"}]}
+
+[2024-09-26 22:01:16] Created _proofpoint-verification.invoices.org with value hello-world (type: TXT)
+[2024-09-26 22:01:16] Failed to create record spf: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"1024edff-f637-4d1a-9c11-39dfd1b864de"}]}
+
+[2024-09-26 22:01:16] Created spf.invoices.org with value v=spf1 include:invoices.org ~all (type: TXT)
+[2024-09-26 22:01:16] Failed to create record dkim: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"e20793be-a962-4be5-8545-a3457832dae4"}]}
+
+[2024-09-26 22:01:16] Created dkim.invoices.org with value dkim._domainkey.invoices.org.dkim.has.pphosted.com. (type: CNAME)
+[2024-09-26 22:01:16] ====================
+[2024-09-26 22:01:17] ====================
+[2024-09-26 22:01:17] Processing zone: ubef.net
+[2024-09-26 22:01:17] Failed to fetch records for zone ubef.net: {"message":"Invalid NSONE Key","details":[{"type":"request-id","message":"ba92371b-144a-4c21-8f61-637519841466"}]}
+
+[2024-09-26 22:04:57] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-09-26 22:04:57] User response: 
+[2024-09-26 22:04:57] Skipped changes for zone ubef.net.
+[2024-09-26 22:04:57] ====================
+[2024-09-26 22:05:09] ====================
+[2024-09-26 22:05:09] Processing zone: invoices.org
+[2024-09-26 22:05:11] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-09-26 22:05:11] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-09-26 22:05:37] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-09-26 22:05:37] User response: y
+[2024-09-26 22:05:37] Record _dmarc.invoices.org already has the correct value and type.
+[2024-09-26 22:05:37] Record _proofpoint-verification.invoices.org already has the correct value and type.
+[2024-09-26 22:05:38] Record spf created successfully.
+[2024-09-26 22:05:38] Created spf.invoices.org with value v=spf1 include:invoices.org ~all (type: TXT)
+[2024-09-26 22:05:38] Record dkim created successfully.
+[2024-09-26 22:05:38] Created dkim.invoices.org with value dkim._domainkey.invoices.org.dkim.has.pphosted.com. (type: CNAME)
+[2024-09-26 22:05:38] ====================
+[2024-09-26 22:05:39] ====================
+[2024-09-26 22:05:39] Processing zone: ubef.net
+[2024-09-26 22:05:39] Current _dmarc.ubef.net value: ['_dmarc.ubef.net.dmarc.has.pphosted.com.'], type: CNAME
+[2024-09-26 22:05:39] Current _proofpoint-verification.ubef.net value: ['hello-world'], type: TXT
+[2024-09-26 22:05:51] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-09-26 22:05:51] User response: y
+[2024-09-26 22:05:51] Record _dmarc.ubef.net already has the correct value and type.
+[2024-09-26 22:05:51] Record _proofpoint-verification.ubef.net already has the correct value and type.
+[2024-09-26 22:05:51] Record spf created successfully.
+[2024-09-26 22:05:51] Created spf.ubef.net with value v=spf1 include:ubef.net ~all (type: TXT)
+[2024-09-26 22:05:51] Record dkim created successfully.
+[2024-09-26 22:05:51] Created dkim.ubef.net with value dkim._domainkey.ubef.net.dkim.has.pphosted.com. (type: CNAME)
+[2024-09-26 22:05:51] ====================

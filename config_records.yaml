@@ -1,4 +1,4 @@
-records:
+regular_records:
   - name: "_dmarc"
     type: "CNAME"
     value_template: "_dmarc.{zone}.dmarc.has.pphosted.com."
@@ -11,3 +11,11 @@ records:
   - name: "dkim"
     type: "CNAME"
     value_template: "dkim._domainkey.{zone}.dkim.has.pphosted.com."
+
+defensive_records:
+  - name: "_dmarc"
+    type: "TXT"
+    value_template: "v=DMARC1; p=none; rua=mailto:dmarc-reports@{domain}"
+  - name: "_proofpoint-verification"
+    type: "TXT"
+    value: "defensive-verification"

@@ -98,6 +98,15 @@ def process_zones(file_path, config_records):
         log_action("=" * 20)
         log_action(f"Processing zone: {zone}")
 
+        # Check if the zone is linked
+        records = get_zone_records(zone)
+        # Check if records exist and if the 'link' field is present and true
+        if isinstance(records, dict) and records.get("link"):
+            print(f"Zone {zone} is linked. Skipping.")
+            log_action(f"Zone {zone} is linked. Skipping.")
+            log_action("=" * 20)
+            continue
+
         record_names = [record['name'] for record in config_records]
         found_records = list_specific_records(zone, record_names)
 
@@ -109,6 +118,7 @@ def process_zones(file_path, config_records):
             value_template = record.get('value_template')
             value = record.get('value')
 
+            # Evaluate the value_template with the actual zone and domain values
             if value_template:
                 value = value_template.format(zone=zone, domain=zone)
 
@@ -147,6 +157,7 @@ def process_zones(file_path, config_records):
             value_template = record.get('value_template')
             value = record.get('value')
 
+            # Evaluate the value_template with the actual zone and domain values
             if value_template:
                 value = value_template.format(zone=zone, domain=zone)
 
@@ -174,8 +185,12 @@ if len(sys.argv) > 1:
 else:
     file_path = input("Enter the path to the file containing the list of zones: ").strip()
 
+# Ask if the zones are defensive domains
+is_defensive = input("Are these defensive domains? (Y/n): ").strip().lower() == 'y'
+
 # Load the YAML configuration
 with open("config_records.yaml", "r") as yaml_file:
-    config_records = yaml.safe_load(yaml_file)["records"]
+    config_data = yaml.safe_load(yaml_file)
+    config_records = config_data["defensive_records"] if is_defensive else config_data["regular_records"]
 
 process_zones(file_path, config_records)
