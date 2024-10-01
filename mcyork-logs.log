@@ -70,3 +70,31 @@
 [2024-09-26 22:05:51] Record dkim created successfully.
 [2024-09-26 22:05:51] Created dkim.ubef.net with value dkim._domainkey.ubef.net.dkim.has.pphosted.com. (type: CNAME)
 [2024-09-26 22:05:51] ====================
+[2024-10-01 00:27:10] ====================
+[2024-10-01 00:27:10] Processing zone: invoices.org
+[2024-10-01 00:27:12] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:27:12] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-10-01 00:27:12] Current spf.invoices.org value: ['v=spf1 include:invoices.org ~all'], type: TXT
+[2024-10-01 00:27:12] Current dkim.invoices.org value: ['dkim._domainkey.invoices.org.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:27:18] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-10-01 00:27:18] User response: n
+[2024-10-01 00:27:18] Skipped changes for zone invoices.org.
+[2024-10-01 00:27:18] ====================
+[2024-10-01 00:27:18] ====================
+[2024-10-01 00:27:18] Processing zone: zip.mcyork.com
+[2024-10-01 00:27:18] Zone zip.mcyork.com is linked. Skipping.
+[2024-10-01 00:27:18] ====================
+[2024-10-01 00:27:18] ====================
+[2024-10-01 00:27:18] Processing zone: ubef.net
+[2024-10-01 00:27:18] Current _dmarc.ubef.net value: ['_dmarc.ubef.net.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:27:18] Current _proofpoint-verification.ubef.net value: ['hello-world'], type: TXT
+[2024-10-01 00:27:18] Current spf.ubef.net value: ['v=spf1 include:ubef.net ~all'], type: TXT
+[2024-10-01 00:27:18] Current dkim.ubef.net value: ['dkim._domainkey.ubef.net.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:27:54] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-10-01 00:27:54] User response: n
+[2024-10-01 00:27:54] Skipped changes for zone ubef.net.
+[2024-10-01 00:27:54] ====================
+[2024-10-01 00:27:54] ====================
+[2024-10-01 00:27:54] Processing zone: zap.mcyork.com
+[2024-10-01 00:27:54] Zone zap.mcyork.com is linked. Skipping.
+[2024-10-01 00:27:54] ====================
