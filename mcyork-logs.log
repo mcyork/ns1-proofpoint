@@ -157,3 +157,33 @@
 [2024-10-01 00:42:18] Processing zone: zap.mcyork.com (Type: defensive)
 [2024-10-01 00:42:18] Zone zap.mcyork.com is linked. Skipping.
 [2024-10-01 00:42:18] ====================
+[2024-10-01 00:56:56] ====================
+[2024-10-01 00:56:56] Processing zone: invoices.org (Type: regular)
+[2024-10-01 00:56:57] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:56:57] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-10-01 00:56:57] Current spf.invoices.org value: ['v=spf1 include:invoices.org ~all'], type: TXT
+[2024-10-01 00:56:57] Current dkim.invoices.org value: ['dkim._domainkey.invoices.org.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:57:12] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-10-01 00:57:12] User response: n
+[2024-10-01 00:57:12] Skipped changes for zone invoices.org.
+[2024-10-01 00:57:12] ====================
+[2024-10-01 00:57:12] ====================
+[2024-10-01 00:57:12] Processing zone: zip.mcyork.com (Type: defensive)
+[2024-10-01 00:57:12] Zone zip.mcyork.com is linked. Skipping.
+[2024-10-01 00:57:12] ====================
+[2024-10-01 00:57:12] ====================
+[2024-10-01 00:57:12] Processing zone: ubef.net (Type: defensive)
+[2024-10-01 00:57:12] Current _dmarc.ubef.net value: ['v=DMARC1; p=none; rua=mailto:dmarc-reports@ubef.net'], type: TXT
+[2024-10-01 00:57:12] Current _proofpoint-verification.ubef.net value: ['defensive-verification'], type: TXT
+[2024-10-01 00:57:12] Current dkim.ubef.net value: ['dkim._domainkey.ubef.net.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:57:22] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-10-01 00:57:22] User response: y
+[2024-10-01 00:57:22] Record _dmarc.ubef.net already has the correct value and type.
+[2024-10-01 00:57:22] Record _proofpoint-verification.ubef.net already has the correct value and type.
+[2024-10-01 00:57:22] Record dkim.ubef.net deleted successfully.
+[2024-10-01 00:57:22] Deleted dkim.ubef.net (type: CNAME)
+[2024-10-01 00:57:22] ====================
+[2024-10-01 00:57:23] ====================
+[2024-10-01 00:57:23] Processing zone: zap.mcyork.com (Type: defensive)
+[2024-10-01 00:57:23] Zone zap.mcyork.com is linked. Skipping.
+[2024-10-01 00:57:23] ====================

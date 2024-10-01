@@ -37,8 +37,8 @@ def get_zone_records(zone_name):
         log_action(f"Failed to fetch records for zone {zone_name}: {response.text}")
         return None
 
-def delete_record(zone_name, record_name, record_type):
-    url = f"https://api.nsone.net/v1/zones/{zone_name}/{record_name}/{record_type}"
+def delete_record(zone_name, record_name):
+    url = f"https://api.nsone.net/v1/zones/{zone_name}/{record_name}"
     print(f"Deleting record with URL: {url}")  # Debug logging for URL
     response = requests.delete(url, headers=HEADERS)
     if response.status_code == 200:
@@ -120,9 +120,10 @@ def process_zones(file_path, config_data):
 
         for record in config_records:
             name = record['name']
-            record_type = record['type']
+            record_type = record.get('type')
             value_template = record.get('value_template')
             value = record.get('value')
+            delete_if_exists = record.get('delete_if_exists', False)
 
             # Evaluate the value_template with the actual zone and domain values
             if value_template:
@@ -134,9 +135,11 @@ def process_zones(file_path, config_data):
                 current_type = current_record['type']
                 print(f"Current {name}.{zone} value: {current_value}, type: {current_type}")
                 log_action(f"Current {name}.{zone} value: {current_value}, type: {current_type}")
-                if value not in current_value or current_type != record_type:
+                if delete_if_exists:
+                    proposed_changes.append(f"Delete {name}.{zone}")
+                elif value not in current_value or current_type != record_type:
                     proposed_changes.append(f"Change {name}.{zone} to {value} (type: {record_type})")
-            else:
+            elif not delete_if_exists:
                 proposed_changes.append(f"Create {name}.{zone} with value {value} (type: {record_type})")
 
         if proposed_changes:
@@ -159,9 +162,10 @@ def process_zones(file_path, config_data):
 
         for record in config_records:
             name = record['name']
-            record_type = record['type']
+            record_type = record.get('type')
             value_template = record.get('value_template')
             value = record.get('value')
+            delete_if_exists = record.get('delete_if_exists', False)
 
             # Evaluate the value_template with the actual zone and domain values
             if value_template:
@@ -171,14 +175,17 @@ def process_zones(file_path, config_data):
             if current_record:
                 current_value = current_record['short_answers']
                 current_type = current_record['type']
-                if value not in current_value or current_type != record_type:
-                    delete_record(zone, f"{name}.{zone}", current_type)
+                if delete_if_exists:
+                    delete_record(zone, f"{name}.{zone}")
+                    log_action(f"Deleted {name}.{zone}")
+                elif value not in current_value or current_type != record_type:
+                    delete_record(zone, f"{name}.{zone}")
                     create_record(zone, name, record_type, value)
                     log_action(f"Changed {name}.{zone} to {value} (type: {record_type})")
                 else:
                     print(f"Record {name}.{zone} already has the correct value and type.")
                     log_action(f"Record {name}.{zone} already has the correct value and type.")
-            else:
+            elif not delete_if_exists:
                 create_record(zone, name, record_type, value)
                 log_action(f"Created {name}.{zone} with value {value} (type: {record_type})")
 

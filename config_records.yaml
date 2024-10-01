@@ -19,3 +19,6 @@ defensive_records:
   - name: "_proofpoint-verification"
     type: "TXT"
     value: "defensive-verification"
+  - name: "dkim"
+    delete_if_exists: true
+
