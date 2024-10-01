@@ -1,11 +1,17 @@
 # NS1 Proofpoint
 
-This script manages DNS records for specified zones using the NS1 API. It specifically handles records like `_dmarc`, `_proofpoint-verification`, `spf`, and `dkim`, ensuring they have the correct values and types. It also supports deleting specific records if they exist.
+This script manages DNS records for specified zones using the NS1 API. It specifically handles records like `_dmarc`, `_proofpoint-verification`, `spf`, and `dkim`, ensuring they have the correct values and types. It also supports handling defensive zones and deleting specific records if they exist.
+
+> **⚠️ USE WITH CAUTION and TEST IN A NON-PRODUCTION ENVIRONMENT. ⚠️**
+
+Yes it should have a better name as there are more than just proofpoint out there.  Agari etc etc.
+
+The core goal of the code is to provide a safe way to stamp a larger set of domains with the necessary records to be added to a service such as Proofpoint or Agari, parked, or otherwise managed.  It can be run often to keep a record set as is (if you can do it safely, remove the prompting).
 
 Other record types may be added in the future (or just work if we are lucky).
 
 The forced linking of a domain to another for parking may be blended into this code in the future.
-Currently we skip linked zones and have no offer to unlink or otherwise manage them.
+Currently it skips linked zones and has no offer to unlink or otherwise manage them.
 
 ## Prerequisites
 
