@@ -1,6 +1,11 @@
 # NS1 Proofpoint
 
-This script manages DNS records for specified zones using the NS1 API. It specifically handles records like `_dmarc`, `_proofpoint-verification`, `spf`, and `dkim`, ensuring they have the correct values and types.
+This script manages DNS records for specified zones using the NS1 API. It specifically handles records like `_dmarc`, `_proofpoint-verification`, `spf`, and `dkim`, ensuring they have the correct values and types. It also supports deleting specific records if they exist.
+
+Other record types may be added in the future (or just work if we are lucky).
+
+The forced linking of a domain to another for parking may be blended into this code in the future.
+Currently we skip linked zones and have no offer to unlink or otherwise manage them.
 
 ## Prerequisites
 
@@ -21,7 +26,7 @@ LOG_FILE = 'path_to_log_file.log'
 Create a `config_records.yaml` file with the following content:
 
 ```
-records:
+regular_records:
   - name: "_dmarc"
     type: "CNAME"
     value_template: "_dmarc.{zone}.dmarc.has.pphosted.com."
@@ -34,43 +39,51 @@ records:
   - name: "dkim"
     type: "CNAME"
     value_template: "dkim._domainkey.{zone}.dkim.has.pphosted.com."
+
+defensive_records:
+  - name: "_dmarc"
+    type: "TXT"
+    value_template: "v=DMARC1; p=none; rua=mailto:dmarc-reports@{domain}"
+  - name: "_proofpoint-verification"
+    type: "TXT"
+    value: "defensive-verification"
+  - name: "dkim"
+    delete_if_exists: true
+```
+
+## CSV Input
+
+Prepare a CSV file containing the list of zones and their types. For example, `zones.csv`:
+
+```
+type,zone
+defensive,example.com
+regular,email.example.com
+other_yaml_records,other.example.com
 ```
 
 ## Usage
 
-1. Prepare a text file containing the list of zones, one per line. For example, `zones.txt`:
-
-```
-example.com
-example.org
-example.net
-```
+1. Prepare the CSV file containing the list of zones and their types as shown above.
 
 2. Run the script:
 
 ```sh
-python ns1-proofpoint.py
+python ns1-proofpoint.py zones.csv
 ```
 
-3. When prompted, enter the path to the file containing the list of zones:
+3. The script will process each zone, list the current values of the specified records, and show the proposed changes. You will be prompted to confirm the changes for each zone:
 
 ```
-Enter the path to the file containing the list of zones: zones.txt
-```
-
-4. The script will process each zone, list the current values of the specified records, and show the proposed changes. You will be prompted to confirm the changes for each zone:
-
-```
-Processing zone: example.com
-Current _dmarc.example.com value: ['_dmarc.example.com.dmarc.has.pphosted.com.'], type: CNAME
-Current _proofpoint-verification.example.com value: ['hello-world'], type: TXT
+Processing zone: example.com (Type: defensive)
+Current _dmarc.example.com value: ['v=DMARC1; p=none; rua=mailto:dmarc-reports@example.com'], type: TXT
+Current _proofpoint-verification.example.com value: ['defensive-verification'], type: TXT
 Proposed changes:
- - Change _dmarc.example.com to _dmarc.example.com.dmarc.has.pphosted.com. (type: CNAME)
- - Change _proofpoint-verification.example.com to your_proofpoint_value (type: TXT)
+ - Delete dkim.example.com
 Do you want to proceed with the changes for zone example.com? (Y/n): y
 ```
 
-5. The script will apply the changes if you confirm with `Y`.
+4. The script will apply the changes if you confirm with `Y`.
 
 ## Logging
 
