@@ -22,7 +22,7 @@ Currently it skips linked zones and has no offer to unlink or otherwise manage t
 
 ### Required Python Packages
 
-The code is built ad tested on the below but the above two are the only ones that are required.
+The code is built and tested on the below but the above two are the only ones that are required.
 
 You can install the tested packages using `pip`:
 
