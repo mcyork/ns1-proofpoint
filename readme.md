@@ -20,6 +20,27 @@ Currently it skips linked zones and has no offer to unlink or otherwise manage t
 - `PyYAML` library (`pip install pyyaml`)
 - NS1 API key
 
+### Required Python Packages
+
+The code is built ad tested on the below but the above two are the only ones that are required.
+
+You can install the tested packages using `pip`:
+
+```sh
+pip install -r requirements.txt
+```
+
+Here is the `requirements.txt` file:
+
+```plaintext
+certifi==2024.8.30
+charset-normalizer==3.3.2
+idna==3.10
+PyYAML==6.0.2
+requests==2.32.3
+urllib3==2.2.3
+```
+
 ## Configuration
 
 Create a `config.py` or `config_local.py` file with the following content:
