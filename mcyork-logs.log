@@ -98,3 +98,62 @@
 [2024-10-01 00:27:54] Processing zone: zap.mcyork.com
 [2024-10-01 00:27:54] Zone zap.mcyork.com is linked. Skipping.
 [2024-10-01 00:27:54] ====================
+[2024-10-01 00:39:59] ====================
+[2024-10-01 00:39:59] Processing zone: invoices.org (Type: regular)
+[2024-10-01 00:40:00] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:40:00] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-10-01 00:40:00] Current spf.invoices.org value: ['v=spf1 include:invoices.org ~all'], type: TXT
+[2024-10-01 00:40:00] Current dkim.invoices.org value: ['dkim._domainkey.invoices.org.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:40:23] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-10-01 00:40:23] User response: n
+[2024-10-01 00:40:23] Skipped changes for zone invoices.org.
+[2024-10-01 00:40:23] ====================
+[2024-10-01 00:40:23] ====================
+[2024-10-01 00:40:23] Processing zone: zip.mcyork.com (Type: defensive)
+[2024-10-01 00:40:23] Zone zip.mcyork.com is linked. Skipping.
+[2024-10-01 00:40:23] ====================
+[2024-10-01 00:40:23] ====================
+[2024-10-01 00:40:23] Processing zone: ubef.net (Type: regular)
+[2024-10-01 00:40:23] Current _dmarc.ubef.net value: ['_dmarc.ubef.net.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:40:23] Current _proofpoint-verification.ubef.net value: ['hello-world'], type: TXT
+[2024-10-01 00:40:23] Current spf.ubef.net value: ['v=spf1 include:ubef.net ~all'], type: TXT
+[2024-10-01 00:40:23] Current dkim.ubef.net value: ['dkim._domainkey.ubef.net.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:40:44] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-10-01 00:40:44] User response: n
+[2024-10-01 00:40:44] Skipped changes for zone ubef.net.
+[2024-10-01 00:40:44] ====================
+[2024-10-01 00:40:44] ====================
+[2024-10-01 00:40:44] Processing zone: zap.mcyork.com (Type: regular)
+[2024-10-01 00:40:44] Zone zap.mcyork.com is linked. Skipping.
+[2024-10-01 00:40:44] ====================
+[2024-10-01 00:41:48] ====================
+[2024-10-01 00:41:48] Processing zone: invoices.org (Type: regular)
+[2024-10-01 00:41:49] Current _dmarc.invoices.org value: ['_dmarc.invoices.org.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:41:49] Current _proofpoint-verification.invoices.org value: ['hello-world'], type: TXT
+[2024-10-01 00:41:49] Current spf.invoices.org value: ['v=spf1 include:invoices.org ~all'], type: TXT
+[2024-10-01 00:41:49] Current dkim.invoices.org value: ['dkim._domainkey.invoices.org.dkim.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:41:52] User prompt: Do you want to proceed with the changes for zone invoices.org? (Y/n): 
+[2024-10-01 00:41:52] User response: n
+[2024-10-01 00:41:52] Skipped changes for zone invoices.org.
+[2024-10-01 00:41:52] ====================
+[2024-10-01 00:41:52] ====================
+[2024-10-01 00:41:52] Processing zone: zip.mcyork.com (Type: defensive)
+[2024-10-01 00:41:53] Zone zip.mcyork.com is linked. Skipping.
+[2024-10-01 00:41:53] ====================
+[2024-10-01 00:41:53] ====================
+[2024-10-01 00:41:53] Processing zone: ubef.net (Type: defensive)
+[2024-10-01 00:41:53] Current _dmarc.ubef.net value: ['_dmarc.ubef.net.dmarc.has.pphosted.com.'], type: CNAME
+[2024-10-01 00:41:53] Current _proofpoint-verification.ubef.net value: ['hello-world'], type: TXT
+[2024-10-01 00:42:16] User prompt: Do you want to proceed with the changes for zone ubef.net? (Y/n): 
+[2024-10-01 00:42:16] User response: y
+[2024-10-01 00:42:17] Record _dmarc.ubef.net deleted successfully.
+[2024-10-01 00:42:17] Record _dmarc created successfully.
+[2024-10-01 00:42:17] Changed _dmarc.ubef.net to v=DMARC1; p=none; rua=mailto:dmarc-reports@ubef.net (type: TXT)
+[2024-10-01 00:42:17] Record _proofpoint-verification.ubef.net deleted successfully.
+[2024-10-01 00:42:17] Record _proofpoint-verification created successfully.
+[2024-10-01 00:42:17] Changed _proofpoint-verification.ubef.net to defensive-verification (type: TXT)
+[2024-10-01 00:42:17] ====================
+[2024-10-01 00:42:18] ====================
+[2024-10-01 00:42:18] Processing zone: zap.mcyork.com (Type: defensive)
+[2024-10-01 00:42:18] Zone zap.mcyork.com is linked. Skipping.
+[2024-10-01 00:42:18] ====================

@@ -4,6 +4,7 @@ import json
 import time
 import sys
 import yaml
+import csv
 from datetime import datetime
 
 # Try to import from config_local first, fall back to config if not found
@@ -80,23 +81,25 @@ def list_specific_records(zone_name, record_names):
     else:
         return {name: None for name in record_names}
 
-def process_zones(file_path, config_records):
+def process_zones(file_path, config_data):
     if not os.path.exists(file_path):
         print(f"Error: The file '{file_path}' does not exist.")
         log_action(f"Error: The file '{file_path}' does not exist.")
         return
 
     with open(file_path, "r") as file:
-        zones = file.readlines()
+        reader = csv.DictReader(file)
+        zones = list(reader)
 
-    for zone in zones:
-        zone = zone.strip()
+    for zone_info in zones:
+        zone_type = zone_info['type']
+        zone = zone_info['zone'].strip()
         if not zone:
             continue
 
-        print(f"Processing zone: {zone}")
+        print(f"Processing zone: {zone} (Type: {zone_type})")
         log_action("=" * 20)
-        log_action(f"Processing zone: {zone}")
+        log_action(f"Processing zone: {zone} (Type: {zone_type})")
 
         # Check if the zone is linked
         records = get_zone_records(zone)
@@ -106,6 +109,9 @@ def process_zones(file_path, config_records):
             log_action(f"Zone {zone} is linked. Skipping.")
             log_action("=" * 20)
             continue
+
+        # Select the appropriate set of records based on the zone type
+        config_records = config_data.get(f"{zone_type}_records", [])
 
         record_names = [record['name'] for record in config_records]
         found_records = list_specific_records(zone, record_names)
@@ -183,14 +189,10 @@ def process_zones(file_path, config_records):
 if len(sys.argv) > 1:
     file_path = sys.argv[1]
 else:
-    file_path = input("Enter the path to the file containing the list of zones: ").strip()
-
-# Ask if the zones are defensive domains
-is_defensive = input("Are these defensive domains? (Y/n): ").strip().lower() == 'y'
+    file_path = input("Enter the path to the CSV file containing the list of zones: ").strip()
 
 # Load the YAML configuration
 with open("config_records.yaml", "r") as yaml_file:
     config_data = yaml.safe_load(yaml_file)
-    config_records = config_data["defensive_records"] if is_defensive else config_data["regular_records"]
 
-process_zones(file_path, config_records)
+process_zones(file_path, config_data)
