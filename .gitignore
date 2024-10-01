@@ -1,10 +1,10 @@
 config_local.py
 bin
 include
+mcyork-logs.log
 lib
 __pycache__
 ns1_actions.log
 zones.txt
 pyvenv.cfg
 venv/
-mcyork-logs.log
